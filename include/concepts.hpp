@@ -19,7 +19,7 @@ namespace concepts {
     template<typename T>
     concept View = requires(T t)
     {
-        typename T::value_type;
+        typename std::decay_t<T>::value_type;
         t[0];
         t.size();
     };
@@ -27,14 +27,14 @@ namespace concepts {
     template<typename T>
     concept MutableView = requires(T t)
     {
-        requires View<T>;
-        requires !std::is_const_v<std::remove_reference_t<typename T::value_type> >;
+        requires View<std::decay_t<T> >;
+        requires !std::is_const_v<typename std::remove_reference_t<T>::value_type>;
     };
 
     template<typename T>
     concept ConstView = requires(T t)
     {
-        requires View<T>;
-        requires std::is_const_v<std::remove_reference_t<typename T::value_type> >;
+        requires View<std::decay_t<T> >;
+        requires std::is_const_v<typename std::remove_reference_t<T>::value_type>;
     };
 }
