@@ -28,13 +28,13 @@ namespace concepts {
     concept MutableView = requires(T t)
     {
         requires View<T>;
-        requires !std::is_const_v<typename T::value_type>;
+        requires !std::is_const_v<std::remove_reference_t<typename T::value_type> >;
     };
 
     template<typename T>
     concept ConstView = requires(T t)
     {
         requires View<T>;
-        requires std::is_const_v<typename T::value_type>;
+        requires std::is_const_v<std::remove_reference_t<typename T::value_type> >;
     };
 }
