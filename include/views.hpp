@@ -51,7 +51,7 @@ std::ostream &operator<<(std::ostream &os, Memory<TData> const &m) {
 template<typename TData>
 class ManagedView : public Memory<TData> {
 public:
-    using value_type = TData;
+    using value_type = std::remove_reference_t<TData>;
     using plain_type = typename Memory<TData>::plain_type;
     using size_type = typename Memory<TData>::size_type;
 
@@ -103,7 +103,7 @@ template<typename TData>
 class UniqueManagedView {
 public:
     using plain_type = std::decay_t<TData>;
-    using value_type = TData;
+    using value_type = std::remove_reference_t<TData>;
     using size_type = std::size_t;
 
 private:

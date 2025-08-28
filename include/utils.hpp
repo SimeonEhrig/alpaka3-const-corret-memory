@@ -7,6 +7,7 @@
 
 #include "concepts.hpp"
 
+#define ALPAKA_TYPEOF(...) std::decay_t<decltype(__VA_ARGS__)>
 
 // take two views and compare the value_type without qualifiers like const
 template<concepts::View ViewA, concepts::View ViewB>
