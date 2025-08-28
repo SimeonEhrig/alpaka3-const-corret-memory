@@ -35,6 +35,9 @@ TEST_CASE("Test concepts::MutableView", "") {
     STATIC_REQUIRE(concepts::MutableView<ManagedView<int&>>);
     STATIC_REQUIRE(!concepts::MutableView<ManagedView<int const>>);
     STATIC_REQUIRE(!concepts::MutableView<ManagedView<int const &>>);
+    STATIC_REQUIRE(!concepts::MutableView<ManagedView<int> const>);
+    STATIC_REQUIRE(!concepts::MutableView<ManagedView<int const> const>);
+    STATIC_REQUIRE(!concepts::MutableView<ManagedView<int const> const&>);
 
     STATIC_REQUIRE(concepts::MutableView<UniqueManagedView<int>>);
     STATIC_REQUIRE(concepts::MutableView<UniqueManagedView<int&>>);

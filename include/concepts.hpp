@@ -28,6 +28,7 @@ namespace concepts {
     concept MutableView = requires(T t)
     {
         requires View<std::decay_t<T> >;
+        requires !std::is_const_v<std::remove_reference_t<T> >;
         requires !std::is_const_v<typename std::remove_reference_t<T>::value_type>;
     };
 
