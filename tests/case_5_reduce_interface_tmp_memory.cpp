@@ -38,9 +38,8 @@ void reduce(TInput const &input, TOutput &output,
 // Same functionality like reduce(), but use auto keyword for the arguments instead typenames.
 // Only a demonstrator how a function interface can be also defined.
 void reduce2(concepts::View auto const &input, concepts::MutableView auto &output, auto &&functor,
-             concepts::MutableView auto &&tmp = UniqueManagedView<typename ALPAKA_TYPEOF(output)::value_type>{0}
-) requires concepts::ReduceFunctor<typename ALPAKA_TYPEOF(functor), typename ALPAKA_TYPEOF(input), typename
-    ALPAKA_TYPEOF(output) > {
+             concepts::MutableView auto &&tmp = UniqueManagedView<ALPAKA_TYPEOF_t(output)::value_type>{0}
+) requires concepts::ReduceFunctor<ALPAKA_TYPEOF_t(functor), ALPAKA_TYPEOF_t(input), ALPAKA_TYPEOF_t(output) > {
     static_assert(has_same_raw_type<ALPAKA_TYPEOF(output), ALPAKA_TYPEOF(tmp) >);
     for (std::size_t i = 0; i < input.size(); ++i) {
         tmp[0] = functor(tmp[0], input[i]);
