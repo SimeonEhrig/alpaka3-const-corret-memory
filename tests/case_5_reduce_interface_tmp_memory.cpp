@@ -27,7 +27,7 @@ template<concepts::View TInput, concepts::MutableView TOutput, typename TFunc, c
     requires concepts::ReduceFunctor<TFunc, TInput, TOutput>
 void reduce(TInput const &input, TOutput &output,
             TFunc &&functor,
-            TTmpMem &&tmp = UniqueManagedView<std::decay_t<typename TOutput::value_type> >{0}) {
+            TTmpMem &&tmp = UniqueManagedView<std::decay_t<typename TOutput::value_type> >{1}) {
     static_assert(has_same_raw_type<TOutput, TTmpMem>);
     for (std::size_t i = 0; i < input.size(); ++i) {
         tmp[0] = functor(tmp[0], input[i]);
