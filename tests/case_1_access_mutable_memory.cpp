@@ -5,11 +5,11 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "views.hpp"
+#include "mem.hpp"
 
 TEST_CASE("Access mutable memory", "") {
   std::size_t size = 10;
-  ManagedView<int> v(size);
+  SharedBuffer<int> v(size);
   INFO("[before] v: " << v << "\n");
 
   for (std::size_t i = 0; i < v.size(); ++i) {

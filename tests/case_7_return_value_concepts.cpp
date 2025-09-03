@@ -5,7 +5,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "views.hpp"
+#include "mem.hpp"
 #include "concepts.hpp"
 #include "utils.hpp"
 #include <vector>
@@ -26,12 +26,12 @@ namespace concepts {
 
 auto get_magic_const_buffer_one() -> concepts::ConstView auto {
     std::vector<int> magic_one = {72, 101, 108, 108, 111, 32, 72, 101, 108, 108, 111};
-    return ManagedView<int const>{magic_one.size(), [magic_one](auto index) { return magic_one[index]; }};
+    return SharedCollection<int const>{magic_one.size(), [magic_one](auto index) { return magic_one[index]; }};
 }
 
 auto get_magic_const_buffer_two() -> concepts::ConstView auto {
     std::vector<int> magic_two = {0, 0, 0, 0, 0, 0, 15, 10, 6, 0, -11};
-    return UniqueManagedView<int const>{magic_two.size(), [magic_two](auto index) { return magic_two[index]; }};
+    return UniqueBuffer<int const>{magic_two.size(), [magic_two](auto index) { return magic_two[index]; }};
 }
 
 void transform(concepts::MutableView auto &output, auto &&functor, concepts::View auto const &... inputs)
@@ -47,9 +47,9 @@ TEST_CASE("Return value concepts.", "") {
 
     // dangerous but possible
     // the interface only guaranties that you get a view which is immutable
-    UniqueManagedView magic_two = get_magic_const_buffer_two();
+    UniqueBuffer magic_two = get_magic_const_buffer_two();
 
-    UniqueManagedView<int> result(magic_one.size());
+    UniqueBuffer<int> result(magic_one.size());
 
     transform(result, std::plus<int>{}, magic_one, magic_two);
 

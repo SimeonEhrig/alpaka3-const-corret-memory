@@ -8,7 +8,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "views.hpp"
+#include "mem.hpp"
 #include "concepts.hpp"
 
 namespace alpaka {
@@ -22,10 +22,10 @@ namespace alpaka {
 
 TEST_CASE("alpaka::memcpy", "") {
     constexpr std::size_t size = 10;
-    ManagedView<int> output(size, [](auto) { return 0; });
+    SharedBuffer<int> output(size);
     INFO("[before] output:              " << output << "\n");
 
-    ManagedView<int> mutable_input(size, [](auto) { return 1; });
+    SharedCollection<int> mutable_input(size, [](auto) { return 1; });
     alpaka::memcpy(output, mutable_input);
     INFO("[copy mutable memory] output: " << output << "\n");
 
@@ -33,7 +33,7 @@ TEST_CASE("alpaka::memcpy", "") {
         REQUIRE(mutable_input[i] == output[i]);
     }
 
-    ManagedView<int const> const_input(size, [](auto) { return 2; });
+    SharedCollection<int const> const_input(size, [](auto) { return 2; });
     alpaka::memcpy(output, const_input);
     INFO("[copy const memory] output:   " << output << "\n");
 
