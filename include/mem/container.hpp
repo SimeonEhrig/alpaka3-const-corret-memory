@@ -4,18 +4,18 @@
 
 
 template<typename TData>
-class SharedCollection : public SharedBuffer<TData> {
+class SharedContainer : public SharedBuffer<TData> {
 public:
     using size_type = typename SharedBuffer<TData>::size_type;
 
-    explicit SharedCollection(size_type const size) : SharedBuffer<TData>(size) {
+    explicit SharedContainer(size_type const size) : SharedBuffer<TData>(size) {
         typename Memory<TData>::plain_type *data = *Memory<TData>::m_data;
         for (size_type i = 0; i < this->size(); ++i) {
             data[i] = SharedBuffer<TData>::plain_type();
         }
     }
 
-    SharedCollection(size_type const size, auto &&init_func) : SharedBuffer<TData>(size) {
+    SharedContainer(size_type const size, auto &&init_func) : SharedBuffer<TData>(size) {
         typename Memory<TData>::plain_type *data = *Memory<TData>::m_data;
         for (size_type i = 0; i < this->size(); ++i) {
             data[i] = init_func(i);
@@ -24,44 +24,44 @@ public:
 
     template<typename TDataOther>
         requires requires { requires !(std::is_const_v<TDataOther> && !std::is_const_v<TData>); }
-    explicit SharedCollection(const SharedCollection<TDataOther> &other) : SharedBuffer<TData>(
+    explicit SharedContainer(const SharedContainer<TDataOther> &other) : SharedBuffer<TData>(
         other.size(), std::move(other.handle())) {
     }
 
-    SharedCollection(SharedCollection &) = default;
+    SharedContainer(SharedContainer &) = default;
 
-    SharedCollection(SharedCollection &&) = delete;
+    SharedContainer(SharedContainer &&) = delete;
 
-    SharedCollection &operator=(SharedCollection const &other) = default;
+    SharedContainer &operator=(SharedContainer const &other) = default;
 
-    SharedCollection &operator=(SharedCollection &&) = delete;
+    SharedContainer &operator=(SharedContainer &&) = delete;
 };
 
 
 template<typename TData>
-class UniqueCollection : public UniqueBuffer<TData> {
+class UniqueContainer : public UniqueBuffer<TData> {
 public:
     using size_type = typename UniqueBuffer<TData>::size_type;
 
-    explicit UniqueCollection(size_type const size) : UniqueBuffer<TData>(size) {
+    explicit UniqueContainer(size_type const size) : UniqueBuffer<TData>(size) {
         typename Memory<TData>::plain_type *data = *Memory<TData>::m_data;
         for (size_type i = 0; i < this->size(); ++i) {
             data[i] = SharedBuffer<TData>::plain_type();
         }
     }
 
-    UniqueCollection(size_type const size, auto &&init_func) : UniqueBuffer<TData>(size) {
+    UniqueContainer(size_type const size, auto &&init_func) : UniqueBuffer<TData>(size) {
         typename Memory<TData>::plain_type *data = *Memory<TData>::m_data;
         for (size_type i = 0; i < this->size(); ++i) {
             data[i] = init_func(i);
         }
     }
 
-    UniqueCollection(UniqueCollection &) = delete;
+    UniqueContainer(UniqueContainer &) = delete;
 
-    UniqueCollection(UniqueCollection &&) = default;
+    UniqueContainer(UniqueContainer &&) = default;
 
-    UniqueCollection &operator=(UniqueCollection &) = delete;
+    UniqueContainer &operator=(UniqueContainer &) = delete;
 
-    UniqueCollection &operator=(UniqueCollection &&) = default;
+    UniqueContainer &operator=(UniqueContainer &&) = default;
 };

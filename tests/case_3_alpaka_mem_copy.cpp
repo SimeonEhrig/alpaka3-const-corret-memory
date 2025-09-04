@@ -25,7 +25,7 @@ TEST_CASE("alpaka::memcpy", "") {
     SharedBuffer<int> output(size);
     INFO("[before] output:              " << output << "\n");
 
-    SharedCollection<int> mutable_input(size, [](auto) { return 1; });
+    SharedContainer<int> mutable_input(size, [](auto) { return 1; });
     alpaka::memcpy(output, mutable_input);
     INFO("[copy mutable memory] output: " << output << "\n");
 
@@ -33,7 +33,7 @@ TEST_CASE("alpaka::memcpy", "") {
         REQUIRE(mutable_input[i] == output[i]);
     }
 
-    SharedCollection<int const> const_input(size, [](auto) { return 2; });
+    SharedContainer<int const> const_input(size, [](auto) { return 2; });
     alpaka::memcpy(output, const_input);
     INFO("[copy const memory] output:   " << output << "\n");
 

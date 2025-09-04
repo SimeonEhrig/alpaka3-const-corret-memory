@@ -26,7 +26,7 @@ namespace concepts {
 
 auto get_magic_const_buffer_one() -> concepts::ConstView auto {
     std::vector<int> magic_one = {72, 101, 108, 108, 111, 32, 72, 101, 108, 108, 111};
-    return SharedCollection<int const>{magic_one.size(), [magic_one](auto index) { return magic_one[index]; }};
+    return SharedContainer<int const>{magic_one.size(), [magic_one](auto index) { return magic_one[index]; }};
 }
 
 auto get_magic_const_buffer_two() -> concepts::ConstView auto {

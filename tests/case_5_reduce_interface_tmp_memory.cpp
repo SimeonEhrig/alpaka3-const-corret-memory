@@ -50,7 +50,7 @@ void reduce2(concepts::View auto const &input, concepts::MutableView auto &outpu
 
 TEST_CASE("reduce() with ManagedView and tmp memory", "") {
     constexpr std::size_t length = 10;
-    SharedCollection<int> input(length, [](auto index) { return index + 1; });
+    SharedContainer<int> input(length, [](auto index) { return index + 1; });
     SharedBuffer<int> tmp(1);
 
     SharedBuffer<int> output(1);
@@ -58,7 +58,7 @@ TEST_CASE("reduce() with ManagedView and tmp memory", "") {
     INFO("output: " << output[0] << " (expected: " << (length * (length + 1)) / 2 << ")\n");
     REQUIRE(output[0] == (length * (length + 1)) / 2);
 
-    SharedCollection<double> input_double(length, [](auto index) { return static_cast<double>(index) + 1.0; });
+    SharedContainer<double> input_double(length, [](auto index) { return static_cast<double>(index) + 1.0; });
     SharedBuffer<int> output2(1);
     reduce(input_double, output2, []<typename TResult>(TResult result, auto input) {
                return result + static_cast<TResult>(input);

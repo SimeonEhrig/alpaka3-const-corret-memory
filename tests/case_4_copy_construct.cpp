@@ -30,9 +30,9 @@ TEST_CASE("copy constructor", "") {
     REQUIRE(m1[0] == m2[0]);
 
 
-    SharedCollection<int const> c1(2, [](auto) { return static_cast<int>(7); });
+    SharedContainer<int const> c1(2, [](auto) { return static_cast<int>(7); });
 
-    SharedCollection<int const> c2(c1);
+    SharedContainer<int const> c2(c1);
     INFO("c1 <> c2: " << c1 << " <> " << c2 << "\n");
     REQUIRE(c1[0] == c2[0]);
     REQUIRE(c1[0] == c2[0]);
@@ -66,8 +66,8 @@ TEST_CASE("assignment oper", "") {
     SharedBuffer<int> m2 = m1;
     REQUIRE(m1[0] == m2[0]);
 
-    SharedCollection<int const> c1(1, [](auto) { return static_cast<int>(7); });
-    SharedCollection<int const> c2 = c1;
+    SharedContainer<int const> c1(1, [](auto) { return static_cast<int>(7); });
+    SharedContainer<int const> c2 = c1;
     REQUIRE(c1[0] == c2[0]);
 
     // c1 = m1 is not possible in general, because the assignment operator does not allow to be templated
